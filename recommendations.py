@@ -71,12 +71,20 @@ def getRecommendations(prefs,person,similarity=sim_pearson):
         if sim<=0:
             continue
         for item in prefs[other]:
-            if item not in prefs[person] or prefs[person][item]=0:
+            if item not in prefs[person] or prefs[person][item]==0:
                 totals.setdefault(item,0)
                 totals[item]+=prefs[other][item]*sim
                 simSums.setdefault(item,0)
                 simSums[item]+=sim
-        rankings=[(total/simSums[item],item) for item,total in totals.items()]
-        rankings.sort()
-        rankings.reverse()
-        return rankings
+    rankings=[(total/simSums[item],item) for item,total in totals.items()]
+    rankings.sort()
+    rankings.reverse()
+    return rankings
+
+def transformPrefs(prefs):
+    result={}
+    for person in prefs:
+        for item in prefs[person]:
+            result.setdefault(item,{})
+            result[item][person]=prefs[person][item]
+    return result
