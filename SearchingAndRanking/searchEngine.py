@@ -43,7 +43,7 @@ class crawler:
             if word in ignoreWords:
                 continue
             wordid=self.getEntryId('wordlist','word',word)
-            self.con.execute("insert into wordlocation(urlid ,wordid,location)\ values(%d,%d,%d)" % (urlId,wordid,i))
+            self.con.execute("insert into wordlocation(urlid ,wordid,location) values(%d,%d,%d)" % (urlId,wordid,i))
 
     def getTextOnly(self,soup):
         #取便签内部的文字内容
@@ -87,8 +87,9 @@ class crawler:
                     continue
                 try:
                     soup = BeautifulSoup(c.read())
+                    print("1")
                     self.addToIndex(page, soup)
-
+                    print("2")
                     links = soup('a')
                     for link in links:
                         if ('href' in dict(link.attrs)):
